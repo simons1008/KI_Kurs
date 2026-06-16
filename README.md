@@ -5,6 +5,7 @@ Wie können wir Objekte mit einer Kamera erkennen, um damit einen ESP32 anzusteu
 ## Ordner Doc
 
 Stoffverteilungsplan
+
 Dokumente zu den Lernmitteln
 
 ## Ordner SW
