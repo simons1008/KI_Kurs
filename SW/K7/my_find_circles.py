@@ -9,8 +9,6 @@
 #
 # Note that the find_circles() method will only find circles which are completely
 # inside of the image. Circles which go outside of the image/roi are ignored...
-#
-# Changed: Add pixel extraction and corresponding number processing
 
 import sensor
 import time
@@ -96,8 +94,8 @@ while True:
         print(c)
         # print("min =", c.y() - c.r())
         # print("max =", c.y() + c.r())
-        ring_width = c.r()/10
-        distance = [0, int(3*ring_width), int(5*ring_width), int(7*ring_width), int(9*ring_width)]
+        ring_half = c.r()/10
+        distance = [0, int(3*ring_half), int(5*ring_half), int(7*ring_half), int(9*ring_half)]
         my_sum = 0
         for i in range(5):
             y_coord = c.y() + distance[i]
