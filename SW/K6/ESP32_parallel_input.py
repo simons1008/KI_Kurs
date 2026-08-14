@@ -36,11 +36,11 @@ while True:
     
     # decode labe
     if label_code == 0:
-        label = "letter_S"
+        label = "letter_Omega"
     elif label_code == 1:
-        label = "letter_F"
+        label = "letter_Phi"
     elif label_code == 2:
-        label = "letter_Z"
+        label = "letter_Psi"
     elif label_code == 3:
         label = "unknown"
     else:
