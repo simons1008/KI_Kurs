@@ -9,51 +9,55 @@
 #
 # Note that the find_circles() method will only find circles which are completely
 # inside of the image. Circles which go outside of the image/roi are ignored...
+#
+# Changes: function "my_number" gets number corresponding to ring color
+#          "main" gets a pixel of every ring and adds the corresponding numbers
 
-import sensor
+import csi
 import time
 
-sensor.reset()
-sensor.set_pixformat(sensor.RGB565)  # grayscale is faster
-sensor.set_framesize(sensor.QQVGA)
-sensor.set_vflip(True)
-sensor.set_hmirror(True)
-sensor.skip_frames(time=2000)
-clock = time.clock()
+csi0 = csi.CSI()
+csi0.reset()
+csi0.pixformat(csi.RGB565)  # grayscale is faster
+csi0.framesize(csi.QQVGA)
+csi0.vflip(True)  # Flips the image vertically
+csi0.hmirror(True)  # Mirrors the image horizontally
+csi0.snapshot(time=2000)
 
+clock = time.clock()
 
 # get number corresponding to r, g, b
 def my_number(r_brightness, g_brightness, b_brightness):
-    # threshold for False/ True
+    # threshold forFalse/ True
     r_threshold = 80
     g_threshold = 60
     b_threshold = 100
     # initialize color channels
-    r = False
-    g = False
-    b = False
+    r_status = False
+    g_status = False
+    b_status = False
     number = -99  # illegal number
-    # compare r, g, b to threshold
+    # compare r, g, bto threshold
     if r_brightness > r_threshold:
-        r = True
+        r_status = True
     if g_brightness > g_threshold:
-        g = True
+        g_status = True
     if b_brightness > b_threshold:
-        b = True
-    # find color and number
-    if (not r) and (not g) and (not b):
+        b_status = True
+    # find colorand number
+    if (not r_status) and (not g_status) and (not b_status):
         # print("black ring")
         number = -2
-    elif r and (not g) and (not b):
+    elif r_status and (not g_status) and (not b_status):
         # print("red ring")
         number = -1
-    elif r and g and (not b):
+    elif r_status and g_status and (not b_status):
         # print("yellow ring")
         number = 0
-    elif (not r) and g and (not b):
+    elif (not r_status) and g_status and (not b_status):
         # print("green ring")
         number = 1
-    elif (not r) and g and b:
+    elif (not r_status) and g_status and b_status:
         # print("cyan ring")
         number = 2
     else:
@@ -66,43 +70,47 @@ def my_number(r_brightness, g_brightness, b_brightness):
 # Loop
 while True:
     clock.tick()
-    img = sensor.snapshot().lens_corr(1.8)
+    img = csi0.snapshot().lens_corr(1.8)
 
-    # Circle objects have four values: x, y, r (radius), and magnitude. The
-    # magnitude is the strength of the detection of the circle. Higher is
+    # Circle objects have fourvalues: x, y, r(radius), and magnitude. The
+    # magnitude is the strength of the detection of the circle. Higheris
     # better...
 
     # `threshold` controls how many circles are found. Increase its value
-    # to decrease the number of circles detected...
+    # to decrease the numberof circles detected...
 
     # `x_margin`, `y_margin`, and `r_margin` control the merging of similar
-    # circles in the x, y, and r (radius) directions.
+    # circles in the x, y, and r(radius) directions.
 
     # r_min, r_max, and r_step control what radiuses of circles are tested.
-    # Shrinking the number of tested circle radiuses yields a big performance boost.
+    # Shrinking the numberof tested circle radiuses yields a big performance boost.
 
     for c in img.find_circles(
-        threshold=5000,
+        threshold=6000,
         x_margin=10,
         y_margin=10,
         r_margin=10,
-        r_min=2,
+        r_min=30,
         r_max=60,
         r_step=2,
     ):
-        img.draw_circle(c.x(), c.y(), c.r(), color=(255, 0, 0))
+        img.draw_circle(c, color=(255, 0, 0))
+        # Centre x coordinate, in pixels. Integer. Index [0]
+        # Centre y coordinate, in pixels. Integer. Index [1]
+        # Radius, in pixels. Integer. Index [2]
+        # Magnitude of the circle in Hough-space. Index [3]
+        print("min =", c[1] - c[2])
+        print("max =", c[1] + c[2])
         print(c)
-        # print("min =", c.y() - c.r())
-        # print("max =", c.y() + c.r())
-        ring_half = c.r()/10
+        ring_half = c[2]/10
         distance = [0, int(3*ring_half), int(5*ring_half), int(7*ring_half), int(9*ring_half)]
         my_sum = 0
         for i in range(5):
-            y_coord = c.y() + distance[i]
+            y_coord = c[1] + distance[i]
             print("y_coord =", y_coord)
-            r, g, b = img.get_pixel(c.x(), y_coord)
-            print(r, g, b)
-            my_sum += my_number(r, g, b)
+            r_brightness, g_brightness, b_brightness = img.get_pixel([c[0], y_coord])
+            # print(r_brightness, g_brightness, b_brightness)
+            my_sum += my_number(r_brightness, g_brightness, b_brightness)
         print("my_sum =", my_sum)
 
     print("FPS %f" % clock.fps())
