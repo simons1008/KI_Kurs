@@ -1,0 +1,11 @@
+The color of the rings and the circle correspond to a numerical value:
+a. Black = -2
+b. Red = -1
+c. Yellow = 0
+d. Green = 1
+e. Blue = 2
+
+Depending on the sum, the health status can be determined.
+a. Harmed victim: sum = 2
+b. Stable victim: sum = 1
+c. Unharmed victim: sum = 0
