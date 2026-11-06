@@ -1,0 +1,4 @@
+happy_smiley
+neutral_smiley
+sad_smiley
+unknown
