@@ -9,7 +9,7 @@ import ml
 
 csi0 = csi.CSI()
 csi0.reset()
-csi0.pixformat(csi.GRAYSCALE)
+csi0.pixformat(csi.RGB565)
 csi0.framesize(csi.QVGA)
 csi0.window((240, 240))
 csi0.vflip(True)
@@ -34,11 +34,13 @@ clock = time.clock()
 while True:
     clock.tick()
     img = csi0.snapshot()
+    # This converts the image to grayscale
+    new_img = img.to_grayscale(copy=True)
 
     # This combines the labels and confidence values into a list of tuples
     # and then sorts that list by the confidence values.
     scores = sorted(
-        zip(labels, model.predict([img])[0].flatten().tolist()),
+        zip(labels, model.predict([new_img])[0].flatten().tolist()),
         key=lambda x: x[1],
         reverse=True
     )
