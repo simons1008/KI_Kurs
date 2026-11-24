@@ -17,8 +17,6 @@ csi0 = csi.CSI()
 csi0.reset()
 csi0.pixformat(csi.RGB565)  # grayscale is faster
 csi0.framesize(csi.QQVGA)
-csi0.vflip(True)  # Flips the image vertically
-csi0.hmirror(True)  # Mirrors the image horizontally
 csi0.snapshot(time=2000)
 
 clock = time.clock()
@@ -41,21 +39,15 @@ while True:
     # Shrinking the number of tested circle radiuses yields a big performance boost.
 
     for c in img.find_circles(
-        threshold=6000,
+        threshold=2000,
         x_margin=10,
         y_margin=10,
         r_margin=10,
-        r_min=30,
-        r_max=60,
+        r_min=2,
+        r_max=100,
         r_step=2,
     ):
         img.draw_circle(c, color=(255, 0, 0))
-        # Centre x coordinate, in pixels. Integer. Index [0]
-        # Centre y coordinate, in pixels. Integer. Index [1]
-        # Radius, in pixels. Integer. Index [2]
-        # Magnitude of the circle in Hough-space. Index [3]
-        print("min =", c[1] - c[2])
-        print("max =", c[1] + c[2])
         print(c)
 
     print("FPS %f" % clock.fps())
