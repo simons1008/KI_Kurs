@@ -91,8 +91,8 @@ while True:
         x_margin=10,
         y_margin=10,
         r_margin=10,
-        r_min=60,
-        r_max=120,
+        r_min=50,
+        r_max=100,
         r_step=2,
     ):
         img.draw_circle(c, color=(255, 0, 0))
