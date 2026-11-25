@@ -45,7 +45,7 @@ def my_number(r_brightness, g_brightness, b_brightness):
         g_status = True
     if b_brightness > b_threshold:
         b_status = True
-    # find colorand number
+    # find color and number
     if (not r_status) and (not g_status) and (not b_status):
         print("black ring")
         number = -2
@@ -71,7 +71,8 @@ def my_number(r_brightness, g_brightness, b_brightness):
 # Loop
 while True:
     clock.tick()
-    img = csi0.snapshot().lens_corr(1.8)
+    img = csi0.snapshot()
+    img.lens_corr(1.8)
 
     # Circle objects have fourvalues: x, y, r(radius), and magnitude. The
     # magnitude is the strength of the detection of the circle. Higheris
@@ -87,7 +88,7 @@ while True:
     # Shrinking the numberof tested circle radiuses yields a big performance boost.
 
     for c in img.find_circles(
-        threshold=6000,
+        threshold=5000,
         x_margin=10,
         y_margin=10,
         r_margin=10,
