@@ -1,17 +1,54 @@
-FPS 40.900640
-FPS 40.904420
-min = 18
-max = 106
-(x=87, y=62, r=44, magnitude=6322)
-y_coord = 62
+(x=95, y=115, r=56, magnitude=6060)
+min = 59
+max = 171
+radius = 56
+ring_half = 5.6
+y_coord = 115
+173 154 90
+yellow ring
 0
-y_coord = 75
+y_coord = 131
+41 81 123
+cyan ring
 2
-y_coord = 84
+y_coord = 142
+123 36 41
+red ring
 -1
-y_coord = 92
+y_coord = 154
+24 24 24
+black ring
 -2
-y_coord = 101
+y_coord = 165
+33 69 49
+green ring
 1
 my_sum = 0
-FPS 40.916520
+FPS 7.874016
+(x=94, y=116, r=55, magnitude=6970)
+min = 61
+max = 171
+radius = 55
+ring_half = 5.5
+y_coord = 116
+173 158 82
+yellow ring
+0
+y_coord = 132
+33 81 132
+cyan ring
+2
+y_coord = 143
+115 36 41
+red ring
+-1
+y_coord = 154
+16 24 16
+black ring
+-2
+y_coord = 165
+33 69 49
+green ring
+1
+my_sum = 0
+FPS 7.876712
